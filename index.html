@@ -211,12 +211,22 @@
       <div class="col-md-6">
         <div class="card p-3 h-100">
           <h5 class="fw-bold">Mini Game: 2048</h5>
-          <div id="game-2048" style="background:#222;padding:10px;border-radius:8px;max-width:320px;margin:auto;">
+          <div id="game-2048" style="background:#222;padding:10px;border-radius:8px;max-width:320px;margin:auto;position:relative;">
             <canvas id="canvas-2048" width="300" height="300" style="background:#333;display:block;margin:auto;border-radius:6px;"></canvas>
             <div class="text-center mt-2">
               <button class="btn btn-sm btn-info text-dark" onclick="reset2048()">Restart</button>
             </div>
-            <small class="d-block text-center text-secondary mt-1">
+            <div id="touch-arrows" class="d-md-none" style="max-width:220px;margin:10px auto 0;display:flex;flex-direction:column;align-items:center;">
+              <div style="display:flex;justify-content:center;gap:20px;">
+                <button class="arrow-btn" data-dir="up" aria-label="Up" style="background:#444;border:none;border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">&#8593;</button>
+              </div>
+              <div style="display:flex;justify-content:center;gap:20px;">
+                <button class="arrow-btn" data-dir="left" aria-label="Left" style="background:#444;border:none;border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;">&#8592;</button>
+                <button class="arrow-btn" data-dir="down" aria-label="Down" style="background:#444;border:none;border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;">&#8595;</button>
+                <button class="arrow-btn" data-dir="right" aria-label="Right" style="background:#444;border:none;border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;">&#8594;</button>
+              </div>
+            </div>
+            <small class="d-block text-center text-secondary mt-1 d-none d-md-block">
               Use <span style="font-family:monospace;">&#8592; &#8593; &#8594; &#8595;</span> arrow keys to play
             </small>
           </div>
@@ -224,6 +234,18 @@
       </div>
     </div>
     <script src="game-2048.js"></script>
+    <script>
+      // Only enable arrow buttons on touch devices
+      document.addEventListener('DOMContentLoaded', function() {
+        var arrows = document.querySelectorAll('#touch-arrows .arrow-btn');
+        arrows.forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (typeof move === 'function') move(btn.getAttribute('data-dir'));
+          });
+        });
+      });
+    </script>
   </section>
 
   <!-- Skills Section -->
