@@ -77,14 +77,17 @@ if (canvas) {
     if (e.touches.length === 1) {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
+      touchEndX = touchStartX;
+      touchEndY = touchStartY;
     }
-  });
+  }, { passive: false });
   canvas.addEventListener('touchmove', function(e) {
     if (e.touches.length === 1) {
       touchEndX = e.touches[0].clientX;
       touchEndY = e.touches[0].clientY;
     }
-  });
+    e.preventDefault(); // Prevent scrolling while swiping on the game
+  }, { passive: false });
   canvas.addEventListener('touchend', function(e) {
     let dx = touchEndX - touchStartX;
     let dy = touchEndY - touchStartY;
@@ -97,5 +100,6 @@ if (canvas) {
         else move('up');
       }
     }
-  });
+    e.preventDefault(); // Prevent scrolling after swipe
+  }, { passive: false });
 }
