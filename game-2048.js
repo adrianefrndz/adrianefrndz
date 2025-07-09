@@ -69,3 +69,33 @@ document.addEventListener('keydown',function(e){
   }
 });
 if (canvas) reset2048();
+
+// Touch controls for mobile
+if (canvas) {
+  let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
+  canvas.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }
+  });
+  canvas.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 1) {
+      touchEndX = e.touches[0].clientX;
+      touchEndY = e.touches[0].clientY;
+    }
+  });
+  canvas.addEventListener('touchend', function(e) {
+    let dx = touchEndX - touchStartX;
+    let dy = touchEndY - touchStartY;
+    if (Math.abs(dx) > 30 || Math.abs(dy) > 30) {
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) move('right');
+        else move('left');
+      } else {
+        if (dy > 0) move('down');
+        else move('up');
+      }
+    }
+  });
+}
