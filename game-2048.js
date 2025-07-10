@@ -34,30 +34,50 @@ function reset2048() {
 }
 function move(dir) {
   let moved = false;
-  let merged = Array.from({length:size},()=>Array(size).fill(false));
-  function slide(r1,c1,r2,c2) {
-    if (board[r2][c2]===0 && board[r1][c1]!==0) {
-      board[r2][c2]=board[r1][c1]; board[r1][c1]=0; moved=true;
-    }
-  }
-  function merge(r1,c1,r2,c2) {
-    if (board[r1][c1] && board[r1][c1]===board[r2][c2] && !merged[r2][c2] && !merged[r1][c1]) {
-      board[r2][c2]*=2; board[r1][c1]=0; score+=board[r2][c2]; merged[r2][c2]=true; moved=true;
-    }
-  }
-  for (let i=0;i<size;i++) {
-    for (let j=0;j<size;j++) {
-      let r=dir==='up'?j:dir==='down'?size-1-j:i;
-      let c=dir==='left'?j:dir==='right'?size-1-j:i;
-      if (dir==='up'||dir==='down') {
-        for (let k=r;k>0&&dir==='up'||k<size-1&&dir==='down';dir==='up'?k--:k++) slide(k,c,k-(dir==='up'?1:-1),c);
-        for (let k=r;k>0&&dir==='up'||k<size-1&&dir==='down';dir==='up'?k--:k++) merge(k,c,k-(dir==='up'?1:-1),c);
-        for (let k=r;k>0&&dir==='up'||k<size-1&&dir==='down';dir==='up'?k--:k++) slide(k,c,k-(dir==='up'?1:-1),c);
-      } else {
-        for (let k=c;k>0&&dir==='left'||k<size-1&&dir==='right';dir==='left'?k--:k++) slide(r,k,r,k-(dir==='left'?1:-1));
-        for (let k=c;k>0&&dir==='left'||k<size-1&&dir==='right';dir==='left'?k--:k++) merge(r,k,r,k-(dir==='left'?1:-1));
-        for (let k=c;k>0&&dir==='left'||k<size-1&&dir==='right';dir==='left'?k--:k++) slide(r,k,r,k-(dir==='left'?1:-1));
+  function processLine(line) {
+    let arr = line.filter(x => x !== 0);
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i] === arr[i + 1]) {
+        arr[i] *= 2;
+        score += arr[i];
+        arr[i + 1] = 0;
+        i++;
       }
+    }
+    arr = arr.filter(x => x !== 0);
+    while (arr.length < size) arr.push(0);
+    return arr;
+  }
+  let oldBoard = JSON.parse(JSON.stringify(board));
+  if (dir === 'left') {
+    for (let r = 0; r < size; r++) {
+      let newRow = processLine(board[r]);
+      board[r] = newRow;
+    }
+  } else if (dir === 'right') {
+    for (let r = 0; r < size; r++) {
+      let newRow = processLine(board[r].slice().reverse()).reverse();
+      board[r] = newRow;
+    }
+  } else if (dir === 'up') {
+    for (let c = 0; c < size; c++) {
+      let col = [];
+      for (let r = 0; r < size; r++) col.push(board[r][c]);
+      let newCol = processLine(col);
+      for (let r = 0; r < size; r++) board[r][c] = newCol[r];
+    }
+  } else if (dir === 'down') {
+    for (let c = 0; c < size; c++) {
+      let col = [];
+      for (let r = 0; r < size; r++) col.push(board[r][c]);
+      let newCol = processLine(col.reverse()).reverse();
+      for (let r = 0; r < size; r++) board[r][c] = newCol[r];
+    }
+  }
+  // Check if board changed
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      if (board[r][c] !== oldBoard[r][c]) moved = true;
     }
   }
   if (moved) { addTile(); drawBoard(); }
