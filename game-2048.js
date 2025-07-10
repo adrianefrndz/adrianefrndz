@@ -88,6 +88,11 @@ document.addEventListener('keydown',function(e){
     move(e.key.replace('Arrow','').toLowerCase());
   }
 });
+
+// Expose functions for mobile button controls
+window.move = move;
+window.reset2048 = reset2048;
+
 if (canvas) reset2048();
 
 // Touch controls for mobile (swipe) are now replaced by on-screen arrows for phones.
