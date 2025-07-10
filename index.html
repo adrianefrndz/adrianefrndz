@@ -7,135 +7,9 @@
   <meta name="theme-color" content="#222">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: #23272b;
-      color: #f8f9fa;
-      font-family: 'Roboto', Arial, sans-serif;
-    }
-    .navbar, .footer {
-      background: #181a1b !important;
-    }
-    .navbar .nav-link, .navbar-brand {
-      color: #f8f9fa !important;
-    }
-    .navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
-      color: #00bcd4 !important;
-    }
-    .navbar .nav-link.scrolled-active {
-      color: #00bcd4 !important;
-      font-weight: bold;
-      text-decoration: underline;
-    }
-    .profile-pic {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid #00bcd4;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-      transition: width 0.2s, height 0.2s;
-    }
-    .card {
-      background: #2c3035;
-      border: none;
-      color: #f8f9fa;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .section-title {
-      color: #00bcd4;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .badge-skill {
-      background: #444950;
-      color: #00bcd4;
-      margin: 0.2rem;
-      font-size: 1em;
-    }
-    .footer {
-      background: #181a1b;
-      color: #aaa;
-      font-size: 0.95em;
-      padding: 1rem 0;
-      margin-top: 2rem;
-    }
-    .floating-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #00bcd4;
-      color: #23272b;
-      border: none;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      z-index: 1000;
-      transition: background 0.2s;
-    }
-    .floating-btn:hover {
-      background: #0097a7;
-      color: #fff;
-    }
-    .input-space {
-      background: #23272b;
-      border: 1px solid #444950;
-      color: #f8f9fa;
-      border-radius: 6px;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      width: 100%;
-    }
-    ::placeholder {
-      color: #aaa;
-      opacity: 1;
-    }
-  </style>
+  <link href="style.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Scrollspy-like behavior for navbar
-    document.addEventListener('DOMContentLoaded', function() {
-      const sections = document.querySelectorAll('section[id]');
-      const navLinks = document.querySelectorAll('.navbar .nav-link');
-
-      function onScroll() {
-        let scrollPos = window.scrollY || document.documentElement.scrollTop;
-        let offset = 80; // adjust if navbar height changes
-        let found = false;
-        sections.forEach(section => {
-          if (!found && section.offsetTop - offset <= scrollPos && (section.offsetTop + section.offsetHeight - offset) > scrollPos) {
-            navLinks.forEach(link => {
-              link.classList.remove('scrolled-active');
-              if (link.getAttribute('href').replace('#','') === section.id) {
-                link.classList.add('scrolled-active');
-              }
-            });
-            found = true;
-          }
-        });
-        if (!found) {
-          navLinks.forEach(link => link.classList.remove('scrolled-active'));
-        }
-      }
-
-      window.addEventListener('scroll', onScroll);
-
-      // Also update on click for instant feedback
-      navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-          navLinks.forEach(l => l.classList.remove('scrolled-active'));
-          this.classList.add('scrolled-active');
-        });
-      });
-    });
-  </script>
+  <script src="main.js"></script>
 </head>
 <body>
   <!-- Navbar -->
@@ -194,7 +68,6 @@
               <img src="coursera.png" style="width:50%; max-width: 300px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
           </div>
         </li>
-        <!-- Add more certificates as needed -->
       </ul>
     </div>
   </section>
@@ -281,51 +154,6 @@
       </div>
     </div>
     <script src="game-2048.js"></script>
-    <script>
-      // Only enable arrow buttons on touch devices
-      document.addEventListener('DOMContentLoaded', function() {
-        var arrows = document.querySelectorAll('#touch-arrows .arrow-btn');
-        arrows.forEach(function(btn) {
-          btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (typeof move === 'function') move(btn.getAttribute('data-dir'));
-          });
-        });
-
-        // Project slide-down logic
-        var viewBtn = document.getElementById('view-project-btn');
-        var details = document.getElementById('project-details');
-        var expanded = false;
-        if (viewBtn && details) {
-          viewBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            expanded = !expanded;
-            if (expanded) {
-              details.style.display = 'block';
-              details.style.maxHeight = details.scrollHeight + 'px';
-              viewBtn.textContent = 'Hide Project';
-              // Only scroll the project card, not the whole row or game
-              var card = viewBtn.closest('.card');
-              if (card) card.scrollIntoView({behavior:'smooth', block:'center'});
-            } else {
-              details.style.maxHeight = '0';
-              setTimeout(function(){ details.style.display = 'none'; }, 500);
-              viewBtn.textContent = 'View Project';
-            }
-          });
-        }
-
-        // Prevent project details from affecting the 2048 game card height
-        var projectCol = viewBtn.closest('.col-md-6');
-        if (projectCol) {
-          projectCol.style.alignSelf = 'flex-start';
-        }
-        var gameCol = document.querySelector('#projects .row .col-md-6:nth-child(2)');
-        if (gameCol) {
-          gameCol.style.alignSelf = 'flex-start';
-        }
-      });
-    </script>
   </section>
 
   <!-- Skills Section -->
