@@ -282,19 +282,6 @@
     </div>
     <script src="game-2048.js"></script>
     <script>
-      // Responsive 2048 game canvas for mobile
-      function resize2048Canvas() {
-        var canvas = document.getElementById('canvas-2048');
-        if (!canvas) return;
-        var parent = canvas.parentElement;
-        var size = Math.min(parent.offsetWidth, 320);
-        if (window.innerWidth < 600) size = Math.min(parent.offsetWidth, 220);
-        canvas.width = size;
-        canvas.height = size;
-        if (typeof drawBoard === 'function') drawBoard();
-      }
-      window.addEventListener('resize', resize2048Canvas);
-      document.addEventListener('DOMContentLoaded', resize2048Canvas);
       // Only enable arrow buttons on touch devices
       document.addEventListener('DOMContentLoaded', function() {
         var arrows = document.querySelectorAll('#touch-arrows .arrow-btn');
