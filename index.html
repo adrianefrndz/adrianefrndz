@@ -182,11 +182,17 @@
           <a href="https://www.udemy.com/certificate/UC-24e12230-aa81-4474-970f-1f028fbe77aa/" target="_blank" class="text-white text-decoration-underline">
             Android Development - Udemy - 2025
           </a>
+          <div style="display:flex; gap:16px; margin-bottom: 10px; margin: 10px;" >
+              <img src="udemy.jpg" style="width:50%; max-width: 300px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+          </div>
         </li>
         <li>
           <a href="https://www.coursera.org/account/accomplishments/specialization/IXJTHI0HG41M?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=prof" target="_blank" class="text-white text-decoration-underline">
             Google Data Analytics - Coursera - 2025
           </a>
+          <div style="display:flex; gap:16px; margin-bottom: 10px; margin: 10px;" >
+              <img src="coursera.png" style="width:50%; max-width: 300px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+          </div>
         </li>
         <!-- Add more certificates as needed -->
       </ul>
@@ -199,13 +205,54 @@
     <div class="row">
       <div class="col-md-6">
         <div class="card p-3 h-100">
-          <h5 class="fw-bold">Personal Android App</h5>
-          <p>A productivity app built with Java, XML, Databases,and Jetpack Compose. <br>
-            <span class="badge bg-info text-dark">Java</span> 
-            <span class="badge bg-secondary">XML</span>
-            <span class="badge bg-info text-dark">Firebase</span>
-            <span class="badge bg-secondary">SQLite</span></p>
-          <a href="#" class="btn btn-outline-info btn-sm mt-2" target="_blank">View Project</a>
+          <h5 class="fw-bold" style="font-size:1.3rem;">Personal Android App</h5>
+          <p id="project-desc-main">A productivity app designed to help users manage daily tasks efficiently, featuring reminders, task categories, and a clean UI. Built for Android devices.<br>
+          </p>
+          <a href="#" class="btn btn-outline-info btn-sm mt-2" id="view-project-btn">View Project</a>
+          <div id="project-details" style="display:none;overflow:hidden;transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1);max-height:0;margin-top: 20px;">
+            <!--chatapp-->
+            <div style="display:flex; justify-content:center; gap:16px; margin-bottom: 10px;" >
+              <img src="chatapp.png" style="width:50%;  max-width: 150px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+              <img src="chatapp2.png" style="width:50%; max-width: 152px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+            </div>
+            <h6 class="text-info mb-2" style="font-size:1.05rem; font-weight: bolder;">Chat App</h6>
+            <ul>
+              <li>Developed a real-time chat application.</li>
+              <li>Features user profiles, secure messaging, and Firestore integration for seamless data handling.</li>
+            </ul>
+            <div style="margin-top:10px; margin-bottom: 20px;">
+              <span class="badge bg-info text-dark">Java</span>
+              <span class="badge bg-secondary">XML</span>
+              <span class="badge bg-info text-dark">Firebase</span>
+            </div>
+            <!--notepad-->
+            <div style="display:flex; justify-content:center; gap:16px; margin-bottom: 10px;" >
+              <img src="booklibrary.png" style="width:50%; max-width: 152px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+            </div>
+            <h6 class="text-info mb-2" style="font-size:1.05rem; font-weight: bolder;">Book Library</h6>
+            <ul>
+              <li>Built a CRUD-based library system allowing users to add, update, and delete books.</li>
+              <li>Implemented RecyclerView to display stored books efficiently.</li>
+            </ul>
+            <div style="margin-top:10px; margin-bottom: 20px;">
+              <span class="badge bg-info text-dark">Java</span>
+              <span class="badge bg-secondary">XML</span>
+              <span class="badge bg-info text-dark">SQLite</span>
+            </div>
+            <!--Tic-Tac-Toe-->
+            <div style="display:flex; justify-content:center; gap:16px; margin-bottom: 10px;" >
+              <img src="tic-tac-toe.png" style="width:50%; max-width: 152px; border-radius:8px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+            </div>
+            <h6 class="text-info mb-2" style="font-size:1.05rem; font-weight: bolder;">Book Library</h6>
+            <ul>
+              <li>Designed a two-player Tic-Tac-Toe app with game logic and winner detection.</li>
+              <li>Features a clean UI and game reset functionality for repeated play.</li>
+            </ul>
+            <div style="margin-top:10px;">
+              <span class="badge bg-info text-dark">Java</span>
+              <span class="badge bg-secondary">XML</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -244,6 +291,39 @@
             if (typeof move === 'function') move(btn.getAttribute('data-dir'));
           });
         });
+
+        // Project slide-down logic
+        var viewBtn = document.getElementById('view-project-btn');
+        var details = document.getElementById('project-details');
+        var expanded = false;
+        if (viewBtn && details) {
+          viewBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            expanded = !expanded;
+            if (expanded) {
+              details.style.display = 'block';
+              details.style.maxHeight = details.scrollHeight + 'px';
+              viewBtn.textContent = 'Hide Project';
+              // Only scroll the project card, not the whole row or game
+              var card = viewBtn.closest('.card');
+              if (card) card.scrollIntoView({behavior:'smooth', block:'center'});
+            } else {
+              details.style.maxHeight = '0';
+              setTimeout(function(){ details.style.display = 'none'; }, 500);
+              viewBtn.textContent = 'View Project';
+            }
+          });
+        }
+
+        // Prevent project details from affecting the 2048 game card height
+        var projectCol = viewBtn.closest('.col-md-6');
+        if (projectCol) {
+          projectCol.style.alignSelf = 'flex-start';
+        }
+        var gameCol = document.querySelector('#projects .row .col-md-6:nth-child(2)');
+        if (gameCol) {
+          gameCol.style.alignSelf = 'flex-start';
+        }
       });
     </script>
   </section>
