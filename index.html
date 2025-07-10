@@ -259,7 +259,7 @@
         <div class="card p-3 h-100">
           <h5 class="fw-bold">Mini Game: 2048</h5>
           <div id="game-2048" style="background:#222;padding:10px;border-radius:8px;max-width:320px;margin:auto;position:relative;">
-            <canvas id="canvas-2048" width="300" height="300" style="background:#333;display:block;margin:auto;border-radius:6px;"></canvas>
+            <canvas id="canvas-2048" width="300" height="300" style="background:#333;display:block;margin:auto;border-radius:6px;max-width:100%;height:auto;" class="game-canvas"></canvas>
             <div class="text-center mt-2">
               <button class="btn btn-sm btn-info text-dark" onclick="reset2048()">Restart</button>
             </div>
@@ -282,6 +282,19 @@
     </div>
     <script src="game-2048.js"></script>
     <script>
+      // Responsive 2048 game canvas for mobile
+      function resize2048Canvas() {
+        var canvas = document.getElementById('canvas-2048');
+        if (!canvas) return;
+        var parent = canvas.parentElement;
+        var size = Math.min(parent.offsetWidth, 320);
+        if (window.innerWidth < 600) size = Math.min(parent.offsetWidth, 220);
+        canvas.width = size;
+        canvas.height = size;
+        if (typeof drawBoard === 'function') drawBoard();
+      }
+      window.addEventListener('resize', resize2048Canvas);
+      document.addEventListener('DOMContentLoaded', resize2048Canvas);
       // Only enable arrow buttons on touch devices
       document.addEventListener('DOMContentLoaded', function() {
         var arrows = document.querySelectorAll('#touch-arrows .arrow-btn');
@@ -386,6 +399,17 @@
 
   <!-- Footer -->
   <footer class="footer text-center">
+    <div style="margin-bottom: 0.5rem;">
+      <a href="https://www.linkedin.com/in/adriane-fernandez-893a54337/" target="_blank" style="margin:0 10px;display:inline-block;">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" style="width:28px;height:28px;filter:invert(0.7);vertical-align:middle;">
+      </a>
+      <a href="https://github.com/adrianefrndz" target="_blank" style="margin:0 10px;display:inline-block;">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" style="width:28px;height:28px;filter:invert(0.7);vertical-align:middle;">
+      </a>
+      <a href="https://www.instagram.com/eddssssyy/profilecard/?igsh=bmp4aDdjcWU4M2J0" target="_blank" style="margin:0 10px;display:inline-block;">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" style="width:28px;height:28px;filter:invert(0.7);vertical-align:middle;">
+      </a>
+    </div>
     &copy; 2025 Adriane Fernandez. All rights reserved.
   </footer>
 </body>
